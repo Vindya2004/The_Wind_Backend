@@ -282,5 +282,111 @@ router.get("/", async (req: Request, res: Response) => {
     }
 });
 
+router.get("/best-seller", async (req: Request, res: Response) => {
+    try {
+        // Try to find the highest-rated published product first
+        let bestSeller = await Product.findOne({ isPublished: true }).sort({ rating: -1 });
+
+        // If no published product found, fallback to any product with highest rating
+        if (!bestSeller) {
+            bestSeller = await Product.findOne().sort({ rating: -1 });
+        }
+
+        // If still no product found, return 404
+        if (!bestSeller) {
+            return res.status(404).json({ message: "No products found" });
+        }
+
+        res.status(200).json(bestSeller);
+    } catch (error) {
+        console.error("Error fetching best-seller:", error);
+        res.status(500).json({ message: "Server Error" });
+    }
+});
+
+router.get("/new-arrivals", async (req: Request, res: Response) => {
+    try {
+        // Fetch latest 8 products, sorted by creation date
+        const newArrivals = await Product.find()
+            .sort({ createdAt: -1 }) // descending order (latest first)
+            .limit(8);
+
+        if (!newArrivals || newArrivals.length === 0) {
+            return res.status(404).json({ message: "No new arrivals found" });
+        }
+
+        res.status(200).json(newArrivals);
+    } catch (error) {
+        console.error("Error fetching new arrivals:", error);
+        res.status(500).json({ message: "Server Error" });
+    }
+});
+
+
+// @route GET /api/products/:id
+// @desc Get a single product by ID
+// @access Public
+router.get(
+    "/:id",
+    async (req: Request<{ id: string }>, res: Response) => {
+        try {
+            const { id } = req.params;
+
+            const product = await Product.findById(id);
+
+            if (!product) {
+                return res.status(404).json({
+                    message: "Product Not Found",
+                });
+            }
+
+            res.status(200).json(product);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({
+                message: "Server Error",
+            });
+        }
+    }
+);
+
+// @route GET /api/products/similar/:id
+// @desc Retrieve similar products based on category & gender
+// @access Public
+router.get(
+    "/similar/:id",
+    async (req: Request<{ id: string }>, res: Response) => {
+        try {
+            const { id } = req.params;
+
+            // 1️⃣ Get current product
+            const product = await Product.findById(id);
+
+            if (!product) {
+                return res.status(404).json({
+                    message: "Product not found",
+                });
+            }
+
+            // 2️⃣ Find similar products
+            const similarProducts = await Product.find({
+                _id: { $ne: product._id }, // exclude current product
+                category: product.category,
+                gender: product.gender,
+                isPublished: true,
+            }).limit(4);
+
+            res.status(200).json(similarProducts);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({
+                message: "Server Error",
+            });
+        }
+    }
+);
+
+
 export default router;
+
 
