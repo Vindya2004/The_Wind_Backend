@@ -9,6 +9,7 @@ import checkoutRoutes from "./routes/checkoutRoutes"
 import orderRoutes from "./routes/orderRoutes"
 import uploadRoutes from "./routes/uploadRoutes"
 import subscribeRoutes from "./routes/subscriberRoutes"
+import adminRoutes from "./routes/adminRoutes"
 
 
 dotenv.config();
@@ -35,6 +36,9 @@ app.use("/api/checkout", checkoutRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api", subscribeRoutes);
+
+//Admin
+app.use("/api/admin/users", adminRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
