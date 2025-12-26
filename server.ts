@@ -11,6 +11,7 @@ import uploadRoutes from "./routes/uploadRoutes"
 import subscribeRoutes from "./routes/subscriberRoutes"
 import adminRoutes from "./routes/adminRoutes"
 import productAdminRoutes from "./routes/productAdminRoutes"
+import adminOrderRoutes from "./routes/adminOrderRoutes"
 
 
 dotenv.config();
@@ -41,6 +42,8 @@ app.use("/api", subscribeRoutes);
 //Admin
 app.use("/api/admin/users", adminRoutes);
 app.use("/api/admin/products", productAdminRoutes);
+app.use("/api/admin/orders", adminOrderRoutes);
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
