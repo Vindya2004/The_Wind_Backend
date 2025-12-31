@@ -33,7 +33,7 @@ router.put(
   admin,
   async (req: Request, res: Response): Promise<void> => {
     try {
-      const order = await Order.findById(req.params.id);
+      const order = await Order.findById(req.params.id).populate("user", "name email");
 
       if (!order) {
         res.status(404).json({ message: "Order not found" });

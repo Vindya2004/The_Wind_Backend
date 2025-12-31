@@ -62,7 +62,7 @@ const orderSchema = new Schema<IOrder>(
     isDelivered: { type: Boolean, default: false },
     deliveredAt: Date,
     paymentStatus: { type: String, default: "pending" },
-    paymentDetails: Schema.Types.Mixed, // <-- Add this
+    paymentDetails: Schema.Types.Mixed, 
     status: { type: String, enum: ["Processing", "Shipped", "Delivered", "Cancelled"] },
   },
   { timestamps: true }

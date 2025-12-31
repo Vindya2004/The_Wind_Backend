@@ -30,7 +30,7 @@ router.post("/", async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    // ✅ GET FIRST IMAGE SAFELY
+    //  GET FIRST IMAGE SAFELY
     const productImage =
       Array.isArray(product.images) && product.images.length > 0
         ? typeof product.images[0] === "string"
@@ -55,7 +55,7 @@ router.post("/", async (req: Request, res: Response) => {
         cart.products.push({
           productId,
           name: product.name,
-          image: productImage, // ✅ FIXED
+          image: productImage, 
           price: product.price,
           size,
           color,
@@ -80,7 +80,7 @@ router.post("/", async (req: Request, res: Response) => {
         {
           productId,
           name: product.name,
-          image: productImage, // ✅ FIXED
+          image: productImage, 
           price: product.price,
           size,
           color,
@@ -132,14 +132,14 @@ router.put("/", async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Product not found in cart" });
     }
 
-    // ✅ Update or remove item
+    //  Update or remove item
     if (quantity > 0) {
       cart.products[productIndex].quantity = quantity;
     } else {
       cart.products.splice(productIndex, 1); // quantity 0 → remove item
     }
 
-    // ✅ Recalculate total price
+    //  Recalculate total price
     cart.totalPrice = cart.products.reduce(
       (acc, item) => acc + item.price * item.quantity,
       0
