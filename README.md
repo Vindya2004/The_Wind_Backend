@@ -77,3 +77,10 @@ This backend is written with **TypeScript** and powered by **Node.js** and **Exp
 git clone https://github.com/Vindya2004/The_Wind_Backend.git
 cd The_Wind_Backend
 
+## 🚀 Backend Deployment
+
+🔗 **Live Backend API**:  
+👉 [https://the-wind-backend.vercel.app](https://the-wind-backend.vercel.app)
+
+
+
